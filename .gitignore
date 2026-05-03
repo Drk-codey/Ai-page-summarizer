@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+backend/node_modules/
+
+# Environment Variables
+.env
+backend/.env
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+backend/*.log
+
+# Extension build artifacts
+*.zip
+dist/
