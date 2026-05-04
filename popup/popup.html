@@ -12,7 +12,8 @@
 </head>
 <body>
 
-  <header class="header" id="header">
+  <!-- ── Header ── -->
+  <header class="header">
     <div class="header-left">
       <div class="logo">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -24,6 +25,7 @@
       <span class="app-name">Summarizer</span>
     </div>
     <div class="header-actions">
+      <!-- Theme toggle -->
       <button class="icon-btn" id="btn-theme" aria-label="Toggle theme" title="Toggle theme">
         <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -40,6 +42,8 @@
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
       </button>
+
+      <!-- Settings (length + highlight only — no API key) -->
       <button class="icon-btn" id="btn-settings" aria-label="Open settings" title="Settings">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
@@ -50,7 +54,7 @@
   </header>
 
   <!-- ── Page Info Bar ── -->
-  <div class="page-info" id="page-info">
+  <div class="page-info">
     <div class="page-favicon" id="page-favicon">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/>
@@ -80,7 +84,7 @@
     </div>
 
     <!-- Loading state -->
-    <div class="loading-state" id="loading-state" style="display:none" aria-live="polite" aria-label="Summarizing page">
+    <div class="loading-state" id="loading-state" style="display:none" aria-live="polite">
       <div class="spinner" aria-hidden="true">
         <div class="spinner-ring"></div>
       </div>
@@ -88,10 +92,14 @@
       <div class="loading-steps" id="loading-steps">
         <span class="step active" data-step="extract">Extract</span>
         <span class="step-arrow">→</span>
-        <span class="step" data-step="analyze">Analyze</span>
+        <span class="step" data-step="analyze">AI</span>
         <span class="step-arrow">→</span>
         <span class="step" data-step="format">Format</span>
       </div>
+      <!-- Render free tier cold-start notice -->
+      <p class="cold-start-hint" id="cold-start-hint" style="display:none">
+        ⏳ Proxy is waking up — this can take ~30s on first use.
+      </p>
     </div>
 
     <!-- Error state -->
@@ -113,11 +121,11 @@
 
       <!-- Meta row -->
       <div class="meta-row">
-        <span class="meta-chip reading-time" id="meta-reading-time">
+        <span class="meta-chip" id="meta-reading-time">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><polyline points="12 6 12 12 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <span id="reading-time-val">–</span> min read
         </span>
-        <span class="meta-chip word-count" id="meta-word-count">
+        <span class="meta-chip" id="meta-word-count">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <span id="word-count-val">–</span> words
         </span>
@@ -161,32 +169,40 @@
         </button>
       </div>
 
+      <!-- ✅ NEW: Powered by badge inside results too -->
+      <p class="proxy-badge proxy-badge--results">
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+        Powered by AI Proxy · Free · Groq Llama
+      </p>
+
     </div>
   </main>
 
   <!-- ── Action Bar ── -->
-  <footer class="action-bar" id="action-bar">
-    <div class="action-left" id="action-left">
+  <footer class="action-bar">
+    <div class="action-left">
       <button class="btn-ghost btn-sm" id="btn-clear" style="display:none" aria-label="Clear summary">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><polyline points="3 6 5 6 21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Clear
       </button>
-      <button class="btn-ghost btn-sm" id="btn-copy" style="display:none" aria-label="Copy summary to clipboard">
+      <button class="btn-ghost btn-sm" id="btn-copy" style="display:none" aria-label="Copy summary">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="2"/></svg>
         Copy
       </button>
-      <button class="btn-ghost btn-sm" id="btn-refresh" style="display:none" aria-label="Re-summarize page">
+      <button class="btn-ghost btn-sm" id="btn-refresh" style="display:none" aria-label="Re-summarize">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><polyline points="23 4 23 10 17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Refresh
       </button>
     </div>
-    <button class="btn-primary" id="btn-summarize" aria-label="Summarize this page">
+    <button class="btn-primary" id="btn-summarize">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
       Summarize Page
     </button>
   </footer>
 
-  <!-- ── Settings Panel (overlay) ── -->
+  <!-- ── Settings Panel (no API key field) ── -->
   <div class="settings-overlay" id="settings-overlay" style="display:none" role="dialog" aria-modal="true" aria-label="Settings">
     <div class="settings-panel">
       <div class="settings-header">
@@ -198,49 +214,20 @@
 
       <div class="settings-body">
 
-        <div class="settings-group">
-          <label class="settings-label" for="sel-provider">AI Provider</label>
-          <select class="settings-select" id="sel-provider">
-            <option value="anthropic">Anthropic Claude</option>
-            <option value="openai">OpenAI GPT</option>
-            <option value="gemini">Google Gemini</option>
-          </select>
-        </div>
-
-        <div class="settings-group">
-          <label class="settings-label" for="inp-api-key">
-            API Key
-            <span class="settings-hint" id="key-hint">Stored securely in Chrome sync storage</span>
-          </label>
-          <div class="key-input-wrap">
-            <input
-              class="settings-input"
-              type="password"
-              id="inp-api-key"
-              placeholder="sk-ant-... or sk-... or AIza..."
-              autocomplete="off"
-              spellcheck="false"
-            >
-            <button class="icon-btn key-toggle" id="btn-toggle-key" aria-label="Show/hide key">
-              <svg class="eye-open" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/></svg>
-              <svg class="eye-closed" width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <div class="settings-group">
-          <label class="settings-label" for="sel-model">Model</label>
-          <select class="settings-select" id="sel-model">
-            <!-- Populated by JS based on provider -->
-          </select>
+        <!-- No API key field — key lives on the server -->
+        <div class="settings-info-row">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+          <span>No API key needed — handled by the free proxy server.</span>
         </div>
 
         <div class="settings-group">
           <label class="settings-label" for="sel-length">Summary Length</label>
           <select class="settings-select" id="sel-length">
             <option value="brief">Brief (3 bullets)</option>
-            <option value="standard" selected>Standard (5&ndash;8 bullets)</option>
-            <option value="detailed">Detailed (8&ndash;12 bullets)</option>
+            <option value="standard" selected>Standard (5–8 bullets)</option>
+            <option value="detailed">Detailed (8–12 bullets)</option>
           </select>
         </div>
 
