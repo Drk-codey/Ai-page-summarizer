@@ -1,13 +1,13 @@
 {
   "manifest_version": 3,
   "name": "AI Page Summarizer",
-  "version": "1.0.0",
-  "description": "Instantly summarize any webpage with AI — bullet points, key insights, and reading time.",
-  "author": "Ogunlade Kayode",
+  "version": "2.0.0",
+  "description": "Instantly summarize any webpage with AI — free, no API key needed.",
+  "author": "Frontend Wizards",
 
   "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
+    "16":  "icons/icon16.png",
+    "48":  "icons/icon48.png",
     "128": "icons/icon128.png"
   },
 
@@ -15,8 +15,8 @@
     "default_popup": "popup/popup.html",
     "default_title": "AI Page Summarizer",
     "default_icon": {
-      "16": "icons/icon16.png",
-      "48": "icons/icon48.png",
+      "16":  "icons/icon16.png",
+      "48":  "icons/icon48.png",
       "128": "icons/icon128.png"
     }
   },
@@ -42,12 +42,18 @@
   ],
 
   "host_permissions": [
-    "https://api.anthropic.com/*",
-    "https://api.openai.com/*",
-    "https://generativelanguage.googleapis.com/*"
+    "https://*.onrender.com/*",
+    "http://localhost/*"
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["content/content.js"],
+      "matches": ["<all_urls>"]
+    }
   ],
 
   "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'"
+    "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' https: data:"
   }
 }
